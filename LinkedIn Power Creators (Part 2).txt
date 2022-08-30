@@ -1,0 +1,22 @@
+WITH temp_table AS
+
+(
+SELECT 
+pp.profile_id AS profile_id, 
+pp.name AS name, 
+pp.followers AS followers, 
+ec.company_id AS company_id, 
+cp.name AS company_name, 
+cp.followers AS company_followers
+
+FROM personal_profiles pp
+
+JOIN employee_company ec ON pp.profile_id = ec.personal_profile_id
+JOIN company_pages cp ON cp.company_id = ec.company_id
+)
+
+SELECT profile_id
+FROM temp_table
+GROUP BY profile_id
+HAVING COUNT(profile_id) = SUM(CASE WHEN followers>company_followers THEN 1 ELSE 0 END)
+ORDER BY profile_id
