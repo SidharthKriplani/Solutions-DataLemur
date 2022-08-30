@@ -1,0 +1,36 @@
+WITH summary AS
+(
+SELECT item_type, COUNT(item_type) AS item_quant, SUM(square_footage) AS unit_square_feet
+FROM inventory
+GROUP BY item_type
+ORDER BY item_type desc
+), 
+
+prime_summary AS
+(
+SELECT *, (SELECT item_quant FROM summary WHERE item_type = 'prime_eligible')*TRUNC(500000/unit_square_feet, 0) AS total_prime_items
+FROM summary
+), 
+
+prime_summary2 AS
+(
+SELECT DISTINCT 'prime_eligible' AS item_type, TRUNC(
+(SELECT SUM(square_footage) FROM inventory WHERE item_type = 'prime_eligible')
+*
+(SELECT total_prime_items FROM prime_summary WHERE item_type = 'prime_eligible')
+/
+(SELECT item_quant FROM summary WHERE item_type = 'prime_eligible')) AS prime_space
+FROM inventory
+)
+
+SELECT item_type, total_prime_items AS item_count FROM prime_summary
+WHERE item_type = 'prime_eligible'
+UNION
+SELECT 'not_prime' AS item_type, 
+(SELECT COUNT(*) FROM inventory WHERE item_type = 'not_prime')
+*
+FLOOR(TRUNC(500000 - (SELECT prime_space FROM prime_summary2))
+/
+(SELECT SUM(square_footage) 
+FROM inventory WHERE item_type = 'not_prime')) AS item_count
+ORDER BY item_count DESC
