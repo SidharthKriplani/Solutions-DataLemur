@@ -1,0 +1,13 @@
+WITH temp_table AS
+(
+SELECT 
+user_id, 
+amount, 
+DATE(transaction_date) - LAG(DATE(transaction_date)) OVER(PARTITION BY user_id ORDER BY DATE(transaction_date)) AS "sub_diff", 
+DATE(transaction_date) - LAG(DATE(transaction_date), 2) OVER(PARTITION BY user_id ORDER BY DATE(transaction_date)) AS "total_diff"
+FROM transactions
+)
+SELECT user_id
+FROM temp_table
+GROUP BY user_id
+HAVING SUM(sub_diff) = SUM(total_diff)
