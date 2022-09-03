@@ -1,0 +1,13 @@
+WITH temp_table AS
+(
+SELECT
+product_id, 
+COUNT(DISTINCT DATE(purchase_date)) AS "date_count", 
+COUNT(product_id) AS "product_count"
+FROM purchases
+GROUP BY product_id
+HAVING COUNT(purchase_date)>1
+)
+SELECT COUNT(*) FROM
+temp_table
+WHERE date_count>1
