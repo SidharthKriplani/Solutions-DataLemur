@@ -1,0 +1,9 @@
+WITH s1 AS
+(
+SELECT s.user_id AS user_id, up.product_id product_id, EXTRACT(DAY FROM (purchase_date - signup_date)) AS day_diff
+FROM signups s
+JOIN user_purchases up
+ON s.user_id = up.user_id
+)
+SELECT DISTINCT ROUND(100*(SELECT COUNT(user_id) FROM signups WHERE user_id IN (SELECT user_id FROM s1 WHERE day_diff<8))/(SELECT COUNT(*) FROM signups), 2)
+FROM s1
