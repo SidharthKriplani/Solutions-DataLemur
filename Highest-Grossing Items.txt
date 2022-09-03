@@ -1,0 +1,15 @@
+WITH temp_table AS
+(
+SELECT category, product, SUM(spend) AS spends
+FROM product_spend
+WHERE EXTRACT(YEAR FROM transaction_date) = '2022'
+GROUP BY category, product
+), 
+summary AS
+(
+SELECT *, DENSE_RANK() OVER(PARTITION BY category ORDER BY spends desc) AS rankk
+FROM temp_table
+)
+SELECT category, product, spends
+FROM summary
+WHERE rankk = 1 OR rankk = 2 
