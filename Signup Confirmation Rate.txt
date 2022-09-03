@@ -1,0 +1,14 @@
+WITH s1 AS
+(
+SELECT *
+FROM emails e
+JOIN texts t
+ON e.email_id = t.email_id
+) 
+SELECT DISTINCT
+ROUND(ROUND(100
+*
+(SELECT COUNT(*) FROM s1 WHERE signup_action = 'Confirmed')
+/
+(SELECT COUNT(*) FROM s1), 2)/100, 2)
+FROM s1
