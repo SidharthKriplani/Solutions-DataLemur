@@ -1,0 +1,10 @@
+WITH multi_skilled AS
+(
+SELECT candidate_id
+FROM candidates
+GROUP BY candidate_id
+HAVING COUNT(distinct skill) > 2
+)
+SELECT DISTINCT candidate_id 
+FROM candidates
+WHERE skill IN ('Python', 'Tableau', 'PostgreSQL') AND candidate_id IN (SELECT * FROM multi_skilled)
