@@ -1,0 +1,13 @@
+WITH s1 AS
+(
+SELECT EXTRACTYEAR FROM transaction_date) AS transaction_year, product_id, spend
+FROM user_transactions
+), 
+s2 AS
+(
+SELECT product_id, transaction_year, SUM(spend) AS curr_year_spend, LAG(SUM(spend), 1) OVER(PARTITION BY product_id ORDER BY transaction_year) AS prev_year_spend
+FROM s1
+GROUP BY product_id, transaction_year
+)
+SELECT transaction_year, product_id, curr_year_spend, prev_year_spend, ROUND(100*(curr_year_spend - prev_year_spend)/prev_year_spend, 2)
+FROM s2
