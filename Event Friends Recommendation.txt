@@ -1,0 +1,38 @@
+WITH all_data AS
+(SELECT user_a_id, user_b_id, status, user_id, attendance_status, event_id
+FROM friendship_status fs
+JOIN event_rsvp er
+ON fs.user_a_id = er.user_id
+WHERE attendance_status IN ('going', 'maybe') AAND status = 'not_friends'
+UNION
+SELECT user_a_id, user_b_id, status, user_id, attendance_status, event_id
+FROM friendship_status fs
+JOIN event_rsvp er
+ON fs.user_b_id = er.user_id
+WHERE attendance_status IN ('going', 'maybe') AND status = 'not_friends'
+), 
+
+-- in the above I filtered out all those who are interested in attending an event and are also not friends with each other
+
+
+events_2_more AS
+(
+SELECT user_id
+FROM 
+(
+SELECT user_id, COUNT(distinct event_id) AS cnt
+FROM all_data
+GROUP BY user_id
+) AS user_event_counts 
+WHERE cnt > 1
+)
+
+--in the above I made a list of all those who are interested in atleast 2 events
+
+
+SELECT DISTINCT user_a_id, user_b_id
+FROM all_data
+WHERE user_a_id IN(SELECT user_id FROM events_2_more) AND user_b_id IN (SELECT user_id FROM events_2_more)
+ORDER BY user_a_id
+
+-- finally I got the distinct pair of users in a unidirectional manner by applying events_2_more filter on the list obtained from 1st CTE
