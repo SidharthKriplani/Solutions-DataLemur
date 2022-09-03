@@ -1,0 +1,8 @@
+WITH temp_table AS
+(
+SELECT *, DENSE_RANK() OVER(PARTITION BY user_id ORDER BY transaction_date) AS rankk
+FROM transactions
+)
+SELECT user_id, spend, transaction_date
+FROM temp_table
+WHERE rankk = 3
