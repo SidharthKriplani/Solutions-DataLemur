@@ -1,0 +1,28 @@
+WITH temp_table AS
+(
+SELECT user_id, tweet_date, DENSE_RANK() OVER(PARTITION BY user_id ORDER BY tweet_date) AS rankk
+FROM tweets
+),
+
+-- since I have to get the 3 day rolling average for tweets I order the dates in ascending order first and rank them
+
+summary AS
+(
+SELECT user_id, tweet_date, count(tweet_date) AS cnt
+FROM temp_table
+GROUP BY user_id, tweet_date
+ORDER BY user_id, tweet_date
+),
+
+-- 
+
+summary2 AS
+(
+SELECT user_id, tweet_date, 
+AVG(cnt) OVER(PARTITION BY user_id ORDER BY tweet_date ROWS BETWEEN 2 PRECEDING AND CURRENT ROW) AS rolling_avg
+FROM summary
+ORDER BY user_id, tweet_date
+)
+
+SELECT user_id, tweet_date, ROUND(rolling_avg, 2)
+FROM summary2
