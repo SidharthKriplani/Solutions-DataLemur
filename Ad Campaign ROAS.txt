@@ -1,0 +1,8 @@
+SELECT 
+advertiser_id, 
+ROUND(CAST(SUM(revenue)/SUM(spend) AS NUMERIC), 2)
+
+FROM ad_campaigns
+
+GROUP BYadvertiser_id
+ORDER BY advertiser_id;
