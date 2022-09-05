@@ -1,0 +1,35 @@
+WITH c1 AS 
+(
+SELECT 
+o.order_id AS order_id, 
+o.customer_id AS customer_id, 
+o.trip_id AS trip_id, 
+o.status AS status, 
+o.order_timestamp AS order_timestamp, 
+t.dasher_id AS dasher_id, 
+t.estimated_delivery_timestamp AS estimated_delivery_timestamp, 
+t.actual_delivery_timestamp AS actual_delivery_timestamp, 
+c.signup_timestamp AS signup_timestamp
+
+FROM orders o
+JOIN trips t ON t.trip_id = o.trip_id
+JOIN customers c ON c.customer_id = o.customer_id
+), 
+
+c2 AS 
+(
+SELECT *
+FROM c1 
+WHERE 
+EXTRACT(DAY FROM order_timestamp - signup_timestamp)<=14 
+AND 
+EXTRACT(MONTH FROM signup_timestamp) = 6 
+)
+
+SELECT DISTINCT
+ROUND(100*
+CAST((SELECT COUNT(*) FROM c2 WHERE status != 'completed successfully' ) AS decimal)
+/
+(SELECT COUNT(*) FROM c2), 2) 
+AS bad_experience_pct
+FROM c1
