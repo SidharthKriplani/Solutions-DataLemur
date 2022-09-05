@@ -1,0 +1,10 @@
+WITH c1 AS
+(
+SELECT customer_id
+FROM adobe_transactions
+WHERE product = 'Photoshop'
+)
+SELECT customer_id, SUM(revenue) AS revenue
+FROM adobe_transactions
+WHERE customer_id IN (SELECT customer_id FROM c1) AND product != 'Photoshop'
+GROUP BY customer_id
