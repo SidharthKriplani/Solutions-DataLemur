@@ -1,0 +1,26 @@
+WITH c1 as 
+(
+SELECT 
+EXTRACT(WEEK FROM signup_date) + 1 - (SELECT 
+				      MIN(EXTRACT(WEEK FROM signup_date)) FROM users) AS week, 
+EXTRACT(DAYS FROM last_login - signup_date) AS diff
+FROM users
+),
+
+c2 AS
+(
+SELECT *, CASE WHEN diff<29 THEN 1 ELSE 0 END AS less_than_28_or_not
+FROM c1
+), 
+
+c3 AS 
+(
+SELECT week AS signup_week, SUM(less_than_28_or_not) AS churned, COUNT(week) AS cnt
+FROM c2
+GROUP BY week
+ORDER BY week 
+)
+
+SELECT signup_week, ROUND(100*CAST(churned AS decimal)/cnt, 2)
+FROM c3
+WHERE churned != cnt
