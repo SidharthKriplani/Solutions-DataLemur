@@ -1,0 +1,12 @@
+WITH c1 AS
+(
+SELECT 
+order_date, 
+product_type, 
+quantity,
+SUM(quantity) OVER(PARTITION BY product_type ORDER BY order_date) AS cum_quant
+FROM total_trans
+) 
+SELECT order_date, product_type, cum_quant
+FROM c1
+ORDER BY order_date
