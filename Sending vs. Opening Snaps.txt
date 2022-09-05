@@ -1,0 +1,42 @@
+WITH all_data AS
+(
+SELECT 
+a.activity_id AS activity_id, 
+a.user_id AS user_id, 
+a.activity_type AS activity_type, 
+a.time_spent AS time_spent, 
+a.activity_date AS activity_date,
+ab.age_bucket AS age_bucket
+FROM activities a
+JOIN age_breakdown ab 
+ON a.user_id = ab.user_id
+), 
+
+total_time_per_bucket AS 
+(
+SELECT age_bucket, SUM(time_spent) AS total_time
+FROM all_data
+WHERE activity_type != 'chat'
+GROUP BY age_bucket
+), 
+
+time_per_bucket_send AS
+(
+SELECT age_bucket, SUM(time_spent) AS time_send
+FROM all_data
+WHERE activity_type = 'send'
+GROUP BY age_bucket
+), 
+
+time_per_bucket_open AS
+(
+SELECT age_bucket, SUM(time_spent) AS time_open
+FROM all_data
+WHERE activity_type = 'open'
+GROUP BY age_bucket
+)
+
+SELECT ttpb.age_bucket, ROUND(100*tpbs.time_send/ttpb.total_time, 2), ROUND(100*tpbo.time_open/ttpb.total_time, 2)
+FROM total_time_per_bucket ttpb 
+JOIN time_per_bucket_send tpbs ON ttpb.age_bucket = tpbs.age_bucket
+JOIN time_per_bucket_open tpbo ON ttpb.age_bucket = tpbo.age_bucket
