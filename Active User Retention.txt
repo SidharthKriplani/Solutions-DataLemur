@@ -1,0 +1,22 @@
+WITH june_ids as 
+(
+SELECT user_id
+FROM user_actions
+WHERE EXTRACT(MONTH FROM event_date) = 6
+), 
+
+july_ids AS
+(
+SELECT user_id
+FROM user_actions
+WHERE EXTRACT(MONTH FROM event_date) = 6
+)
+
+SELECT 
+7 AS month, 
+COUNT(DISTINCT user_id) AS monthly_active_users
+FROM user_actions
+WHERE 
+user_id IN (SELECT user_id FROM june_ids) 
+AND 
+user_id IN (SELECT user_id FROM july_ids)
