@@ -1,0 +1,29 @@
+WITH s1 AS
+(
+SELECT *, 
+CASE WHEN type = 'deposit' THEN amount ELSE -amount END AS net, 
+EXTRACT(MONTH FROM transaction_date) AS "month"
+
+FROM transactions
+), 
+
+s2 AS 
+(
+SELECT 
+DATE(transaction_date) AS transaction_date, 
+SUM(net) AS net, 
+EXTRACT(MONTH FROM date(transaction_date)) AS "month"
+
+FROM s1
+
+GROUP BY DATE(transaction_date)
+ORDER BY DATE(transaction_date)
+
+)
+
+SELECT 
+transaction_date, 
+SUM(net) OVER(PARTITION BY month ORDER BY transaction_date) AS nett
+
+FROM s2
+ORDER BY transaction_date
