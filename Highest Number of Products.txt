@@ -1,0 +1,6 @@
+SELECT user_id, COUNT(*) AS quant_prods
+FROM user_transactions
+GROUP BY user_id
+HAVING SUM(spend)>1000
+ORDER BY quant_prods DESC, SUM(spend) DESC
+LIMIT 3
