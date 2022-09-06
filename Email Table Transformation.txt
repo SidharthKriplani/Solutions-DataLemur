@@ -1,0 +1,16 @@
+WITH personal as 
+(SELECT user_id, email AS personal
+FROM users
+WHERE type = 'personal'), 
+business AS 
+(SELECT user_id, email AS business
+FROM users
+WHERE type = 'business'), 
+recovery AS 
+(SELECT user_id, email AS recovery
+FROM users 
+WHERE type = 'recovery')
+SELECT b.user_id, p.personal, b.business, r.recovery
+FROM personal p
+FULL OUTER JOIN business b ON p.user_id = b.user_id
+FULL OUTER JOIN recovery r ON p.user_id = r.user_id
