@@ -1,0 +1,19 @@
+WITH total_demand AS (
+  SELECT 
+    datacenter_id,
+    SUM(monthly_demand) AS total_demand
+  FROM
+    forecasted_demand
+  GROUP BY
+    datacenter_id
+)
+SELECT
+  td.datacenter_id,
+  d.monthly_capacity - td.total_demand AS spare_capacity
+FROM 
+  total_demand AS td
+JOIN 
+  datacenters AS d
+ON d.datacenter_id=td.datacenter_id  
+ ORDER BY 
+   datacenter_id;
