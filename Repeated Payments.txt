@@ -1,0 +1,25 @@
+WITH c1 AS
+(
+SELECT *,
+transaction_timestamp - (LAG(transaction_timestamp, 1, '09/25/2022 12:00:00')
+OVER(ORDER BY merchant_id, credit_card_id, amount, transaction_timestamp)) AS time_diff
+
+FROM transactions
+), 
+
+c2 AS 
+(
+SELECT  
+merchant_id, 
+credit_card_id, 
+transaction_timestamp, 
+amount, 
+EXTRACT(HOUR FROM time_diff) AS hrs, 
+EXTRACT(MINUTE FROM time_diff) AS mins
+
+FROM c1
+)
+
+SELECT COUNT(*) 
+FROM c2 
+WHERE hrs = 0 AND mins>0 AND mins <11
