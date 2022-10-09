@@ -1,0 +1,16 @@
+WITH c1 AS
+(
+SELECT *, 
+LEAD(status_time) OVER(PARTITION BY server_id ORDER BY status_time) AS stop_time
+FROM server_utilization
+),
+
+c2 AS
+(
+SELECT server_id, status_time AS start_time, stop_time
+FROM c1 WHERE session_status = 'start'
+)
+
+SELECT 
+ROUND(SUM(EXTRACT(DAYS FROM stop_time - start_time)) + (SUM(EXTRACT(HOURS FROM stop_time - start_time))/24), 0)
+FROM c2
