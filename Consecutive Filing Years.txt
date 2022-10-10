@@ -1,0 +1,17 @@
+WITH c1 AS
+(
+SELECT user_id, EXTRACT(YEAR FROM filing_date) AS year, SPLIT_PART(product, ' ', 1) AS product
+FROM filed_taxes
+), 
+
+c2 AS 
+(
+SELECT user_id, year, LAG(year, 1, year-1) OVER(PARTITION BY user_id ORDER BY year) AS last_year, product
+FROM c1
+)
+
+SELECT user_id
+FROM c2
+WHERE product = 'TurboTax'
+GROUP BY user_id
+HAVING SUM(year-last_year) >=3
