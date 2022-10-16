@@ -1,0 +1,3 @@
+SELECT round(100.0*count(*)/(select count(*) from marketing_touches where extract(year from event_date) = 2022 and extract(month from event_date) = 4), 0)
+FROM marketing_touches
+where event_type = 'webinar' and extract(year from event_date) = 2022 and extract(month from event_date) = 4
