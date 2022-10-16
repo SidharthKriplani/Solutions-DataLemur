@@ -1,0 +1,21 @@
+WITH c1 AS
+(
+SELECT 
+  customer_id, product_name AS product_1, 
+  LEAD(product_name) OVER(
+    PARTITION BY customer_id 
+    ORDER BY product_name desc, transaction_timestamp) 
+AS product_2
+
+FROM transactions
+)
+
+
+SELECT ROUND(100.0*
+             COUNT(*)/(SELECT 
+                       COUNT(DISTINCT customer_id) 
+                       FROM transactions))
+
+FROM c1
+WHERE product_1 = 'iPhone' 
+  AND product_2 = 'AirPods'
