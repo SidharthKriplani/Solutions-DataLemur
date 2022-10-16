@@ -1,0 +1,32 @@
+WITH cross_joined AS
+(
+SELECT 
+pt1.topping_name AS topping1, 
+pt1.ingredient_cost AS cost1,
+pt2.topping_name AS topping2, 
+pt2.ingredient_cost AS cost2
+
+FROM pizza_toppings pt1
+CROSS JOIN pizza_toppings pt2
+WHERE pt1.topping_name < pt2.topping_name
+), 
+
+
+triple_cross_join AS
+(
+SELECT 
+CONCAT(cross_joined.topping1, ', ', cross_joined.topping2, ', ', pt3.topping_name), 
+cross_joined.cost1 + cross_joined.cost2 + pt3.ingredient_cost AS total_cost
+
+FROM cross_joined
+CROSS JOIN pizza_toppings pt3
+
+WHERE 
+pt3.topping_name > cross_joined.topping1 AND 
+pt3.topping_name > cross_joined.topping2
+)
+
+
+SELECT *
+FROM triple_cross_join
+ORDER BY total_cost desc
