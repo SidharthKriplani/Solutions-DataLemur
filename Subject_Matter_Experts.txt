@@ -1,0 +1,24 @@
+WITH one_domain AS
+(
+SELECT distinct employee_id
+FROM employee_expertise 
+WHERE years_of_experience >=8
+), 
+
+
+two_domains AS
+(
+SELECT employee_id
+FROM employee_expertise
+GROUP BY employee_id
+HAVING COUNT(employee_id) < 3 AND SUM(years_of_experience) >=12
+)
+
+SELECT DISTINCT employee_id 
+FROM
+(
+SELECT employee_id
+FROM one_domain
+UNION 
+SELECT employee_id
+FROM two_domains) AS id_union
