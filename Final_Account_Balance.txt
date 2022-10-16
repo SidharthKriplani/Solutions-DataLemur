@@ -1,0 +1,4 @@
+SELECT account_id,  
+sum(case when transaction_type = 'Deposit' then +amount else -amount end )
+FROM transactions
+group by account_id
