@@ -1,0 +1,11 @@
+with c1 AS
+(
+SELECT customer_id, purchase_amount,
+dense_rank() over(partition by customer_id order by purchase_amount desc) as rankk
+FROM transactions
+)
+
+select customer_id, purchase_amount
+from c1
+where rankk = 1
+order by purchase_amount desc
