@@ -1,0 +1,15 @@
+WITH c1 AS 
+(
+SELECT *
+FROM products p
+JOIN product_sales ps ON p.product_id = ps.product_id
+), 
+
+c2 AS
+(
+SELECT *, DENSE_RANK() OVER(PARTITION BY category_name ORDER BY sales_quantity DESC, rating DESC) AS rankk
+FROM c1
+)
+
+SELECT *
+FROM c2 
