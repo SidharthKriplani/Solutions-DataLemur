@@ -1,0 +1,19 @@
+with c1 AS
+(
+SELECT 
+tit.transaction_id as transaction_id, 
+tit.model_id as model_id, 
+tit.store_id as store_id, 
+tit.transaction_date as transaction_date, 
+tip. model_name, 
+tip.payout_amount
+
+FROM trade_in_transactions tit
+join trade_in_payouts tip
+on tit.model_id = tip.model_id
+)
+
+select store_id, sum(payout_amount) 
+from c1
+group by store_id
+order by sum(payout_amount) desc
