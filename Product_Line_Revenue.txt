@@ -1,0 +1,12 @@
+with c1 as 
+(
+SELECT pi.product_id, pi.product_name, pi.product_line, t.transaction_id, t.amount
+FROM transactions t
+join product_info pi
+on t.product_id = pi.product_id
+)
+
+select product_line, sum(amount)
+from c1
+group by product_line
+order by sum(amount) desc
