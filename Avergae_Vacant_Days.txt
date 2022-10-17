@@ -1,0 +1,24 @@
+WITH c1 AS
+(
+SELECT 
+l.listing_id AS listing, 
+l.is_active AS active, 
+
+CASE WHEN EXTRACT(YEAR FROM b.checkout_date) = '2022' THEN '12/31/2021' else b.checkout_date END AS checkout,
+CASE WHEN EXTRACT(YEAR FROM b.checkin_date) = '2020' THEN '01/01/2021' else b.checkin_date END AS checkin
+
+FROM bookings b
+RIGHT JOIN listings l
+ON b.listing_id = l.listing_id
+),
+
+c2 AS
+(
+SELECT (365 - COALESCE(SUM(checkout - checkin), 0)) AS vacant_days
+FROM c1
+WHERE active = 1
+GROUP BY listing
+)
+
+SELECT ROUND(AVG(vacant_days), 0)
+FROM c2
