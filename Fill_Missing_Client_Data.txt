@@ -1,0 +1,16 @@
+WITH c1 AS
+(
+SELECT *, 
+COUNT(category) OVER(ORDER BY product_id) AS rankk
+FROM products
+)
+
+SELECT product_id,  
+CASE
+WHEN rankk = 1 THEN 'Shoes'
+WHEN rankk = 2 THEN 'Jeans'
+WHEN rankk = 3 THEN 'Shirts'
+WHEN rankk = 4 THEN 'Jackets'
+END AS category, 
+name
+FROM c1
