@@ -1,0 +1,13 @@
+WITH c1 AS
+(
+SELECT *, 
+CASE 
+WHEN payment_method IN ('Apple Pay', 'apple pay', 'Apple pay', 'apple Pay') 
+THEN transaction_amount ELSE 0 END AS apple_transaction_amount
+FROM transactions
+)
+
+SELECT merchant_id, SUM(apple_transaction_amount)
+FROM c1
+GROUP BY merchant_id
+ORDER BY SUM(apple_transaction_amount) DESC
