@@ -1,0 +1,23 @@
+WITH c1 AS
+(
+SELECT deals.employee_id AS employee_id, deals.deal_size AS deal_size, sq.quota AS quota
+FROM deals
+JOIN sales_quotas sq
+ON deals.employee_id = sq.employee_id
+), 
+
+c2 AS
+(
+SELECT employee_id, SUM(deal_size) AS deal_size, AVG(quota) AS quota
+FROM c1
+GROUP BY employee_id
+)
+
+SELECT DISTINCT employee_id, 
+CASE 
+WHEN deal_size >= quota 
+THEN 'yes' 
+ELSE 'no' 
+END 
+AS made_quota 
+FROM c2
