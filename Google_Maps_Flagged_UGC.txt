@@ -1,0 +1,28 @@
+WITH c1 AS
+(
+SELECT
+pi.place_id AS place_id, 
+pi.place_name AS place_name, 
+pi.place_category AS place_category, 
+COALESCE(mur.content_id, 000) AS content_id, 
+COALESCE(mur.content_tag, 'None') AS content_tag
+FROM place_info pi
+LEFT JOIN maps_ugc_review mur
+ON pi.place_id = mur.place_id
+), 
+
+c2 AS
+(
+SELECT place_category, COUNT(place_category) AS cnt
+FROM c1
+WHERE content_tag = 'Off-topic'
+GROUP BY place_category
+)
+
+SELECT place_category 
+FROM c2 
+WHERE cnt IN (SELECT DISTINCT cnt
+              FROM c2 c12
+              WHERE 1 = (SELECT COUNT(DISTINCT cnt)
+                         FROM c2 c22
+                         WHERE c22.cnt>=c12.cnt))
