@@ -1,0 +1,57 @@
+  WITH avg_da AS
+  (
+  SELECT AVG(salary) AS avg_da_salary
+  FROM employee_pay
+  WHERE title = 'Data Analyst'),
+
+  avg_ds AS
+  (
+  SELECT AVG(salary) AS avg_ds_salary
+  FROM employee_pay
+  WHERE title = 'Data Scientist'),
+
+  avg_pd AS 
+  (
+  SELECT AVG(salary) AS avg_pd_salary
+  FROM employee_pay
+  WHERE title = 'Python Developer')
+
+  SELECT employee_id, salary, status 
+  FROM
+  
+  (  
+  SELECT employee_id, salary, 
+  CASE 
+  WHEN salary > 2*(SELECT avg_da_salary FROM avg_da) THEN 'Overpaid' 
+  WHEN salary < (SELECT avg_da_salary FROM avg_da)/2 THEN 'Underpaid' 
+  END AS status
+  FROM employee_pay
+  WHERE title = 'Data Analyst'
+
+  UNION
+  
+  SELECT employee_id, salary, 
+  CASE
+  WHEN salary > 2*(SELECT avg_ds_salary FROM avg_ds) THEN 'Overpaid' 
+  WHEN salary < (SELECT avg_ds_salary FROM avg_ds)/2 THEN 'Underpaid' 
+  END AS status
+  FROM employee_pay
+  WHERE  title = 'Data Scientist'
+
+  UNION
+  
+  SELECT  employee_id, salary, 
+  CASE
+  WHEN salary > 2*(SELECT avg_pd_salary FROM avg_pd) THEN 'Overpaid' 
+  WHEN salary < (SELECT avg_pd_salary FROM avg_pd)/2 THEN'Underpaid' 
+  END AS status
+  from employee_pay
+  WHERE title = 'Python Developer'
+  ) 
+  
+  AS  temp
+  
+  WHERE status IN ('Underpaid', 'Overpaid')
+  ORDER BY employee_id
+   
+   
