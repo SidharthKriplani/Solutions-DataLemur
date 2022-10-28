@@ -1,9 +1,0 @@
-WITH temp_table AS
-(
-SELECT company_id, COUNT(company_id) AS company_count, COUNT(DISTINCT title) AS title_count
-FROM job_listings
-GROUP BY company_id
-HAVING COUNT(company_id) > COUNT(DISTINCT title)
-)
-SELECT COUNT(*)
-FROM temp_table
