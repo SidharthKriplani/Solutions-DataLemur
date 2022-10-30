@@ -1,0 +1,15 @@
+WITH c1 as 
+(
+SELECT *, CONCAT(amenity, ' ', LAG(amenity) OVER(PARTITION BY rental_id ORDER BY amenity)) AS all_amenities
+FROM rental_amenities
+), 
+
+c2 AS
+(
+SELECT all_amenities, COUNT(*) AS cnt
+FROM c1
+GROUP BY all_amenities
+)
+
+SELECT SUM(cnt-1) AS matching_airbnb
+FROM c2
