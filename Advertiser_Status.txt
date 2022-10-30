@@ -1,0 +1,28 @@
+WITH c1 AS
+(
+SELECT DISTINCT user_id 
+FROM advertiser
+
+UNION 
+
+SELECT DISTINCT user_id
+FROM daily_pay
+),
+
+c2 AS 
+(
+SELECT c11.user_id AS user_id, a.status AS status, COALESCE(dp.paid, 0.0) AS paid
+FROM c1 c11
+LEFT JOIN daily_pay dp ON c11.user_id = dp.user_id
+LEFT JOIN advertiser a on c11.user_id = a.user_id
+)
+
+SELECT user_id,
+CASE 
+  WHEN paid = 0 THEN 'CHURN' 
+  WHEN (paid > 0.0 AND status IN ('CHURN')) THEN 'RESURRECT' 
+  WHEN (paid > 0.0 AND status NOT IN ('CHURN')) THEN 'EXISTING' 
+ELSE 'NEW'
+END AS new_status
+FROM c2
+ORDER BY user_id
