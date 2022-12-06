@@ -1,0 +1,17 @@
+WITH c1 AS 
+(
+SELECT 
+e.email_id AS email_id, 
+e.user_id AS user_id, 
+e.signup_date AS signup_date, 
+t.text_id AS text_id, 
+t.signup_action AS signup_action
+
+FROM texts t
+JOIN emails e
+ON t.email_id = e.email_id
+)
+
+SELECT ROUND(1.0*COUNT(*)/(SELECT COUNT(*) FROM c1), 2) AS confirmation_rate
+FROM c1
+WHERE signup_action = 'Confirmed'
