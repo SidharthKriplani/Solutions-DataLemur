@@ -1,0 +1,13 @@
+WITH c1 AS 
+(
+SELECT *, 
+EXTRACT(hour FROM LAG(transaction_timestamp) OVER(PARTITION BY credit_card_id ORDER BY transaction_timestamp DESC) - transaction_timestamp) AS hours,
+EXTRACT(minute from LAG(transaction_timestamp) OVER(PARTITION BY credit_card_id ORDER BY transaction_timestamp DESC) - transaction_timestamp) AS minutes, 
+LAG(amount) OVER(PARTITION BY credit_card_id ORDER BY transaction_timestamp DESC) - amount AS amt_difference, 
+LAG(merchant_id) OVER(PARTITION BY credit_card_id ORDER BY transaction_timestamp DESC) - merchant_id AS merchant_difference
+FROM transactions
+)
+
+SELECT COUNT(*) AS payment_count
+FROM c1
+WHERE hours = 0 AND minutes <=10 AND amt_difference = 0 AND merchant_difference = 0
