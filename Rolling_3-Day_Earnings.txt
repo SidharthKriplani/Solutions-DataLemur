@@ -1,4 +1,4 @@
-WITH c1 AS
+WITH c1 AS 
 (
 SELECT user_id, transaction_date, SUM(amount) AS total_day_amount
 FROM user_transactions
