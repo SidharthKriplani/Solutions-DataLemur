@@ -8,7 +8,7 @@ CASE WHEN EXTRACT(YEAR FROM b.checkout_date) = '2022' THEN '12/31/2021' else b.c
 CASE WHEN EXTRACT(YEAR FROM b.checkin_date) = '2020' THEN '01/01/2021' else b.checkin_date END AS checkin
 
 FROM bookings b
-RIGHT JOIN listings l
+RIGHT JOIN listings l 
 ON b.listing_id = l.listing_id
 ),
 
