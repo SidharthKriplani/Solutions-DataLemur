@@ -1,0 +1,28 @@
+WITH callers AS 
+( 
+SELECT 
+pc.call_time, 
+pi.country_id
+FROM phone_info pi
+JOIN phone_calls pc ON pc.caller_id = pi.caller_id
+), 
+
+receivers AS 
+(
+SELECT 
+pc.call_time, 
+pi.country_id
+FROM phone_info pi
+JOIN phone_calls pc ON pc.receiver_id = pi.caller_id
+), 
+
+last_cte AS 
+(
+SELECT callers.country_id AS country1, receivers.country_id AS country2
+FROM callers
+JOIN receivers 
+ON callers.call_time = receivers.call_time
+)
+
+SELECT ROUND(100.0*(SELECT COUNT(*) FROM last_cte WHERE country1!=country2)/COUNT(*), 1)
+FROM last_cte
