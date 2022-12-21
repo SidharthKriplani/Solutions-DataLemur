@@ -1,4 +1,4 @@
-WITH total_demand AS (
+WITH total_demand AS ( 
   SELECT 
     datacenter_id,
     SUM(monthly_demand) AS total_demand
