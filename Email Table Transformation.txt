@@ -6,7 +6,7 @@ WHERE email_type = 'personal'),
 business AS 
 (SELECT user_id, email AS business
 FROM users
-WHERE email_type = 'business'), 
+WHERE email_type = 'business'),  
 
 recovery AS 
 (SELECT user_id, email AS recovery
