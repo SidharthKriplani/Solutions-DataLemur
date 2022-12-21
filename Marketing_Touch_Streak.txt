@@ -1,5 +1,5 @@
 WITH full_data AS
-(
+( 
 SELECT 
 mt.contact_id AS contact, 
 mt.event_type AS event, 
