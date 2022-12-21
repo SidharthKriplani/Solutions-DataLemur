@@ -1,4 +1,4 @@
-WITH c1 AS
+WITH c1 AS 
 (
 SELECT 
 EXTRACT(WEEK FROM signup_date)-21 AS signup_week, 
