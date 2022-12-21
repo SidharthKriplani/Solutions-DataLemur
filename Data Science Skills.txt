@@ -1,6 +1,6 @@
 WITH multi_skilled AS
 (
-SELECT candidate_id
+SELECT candidate_id 
 FROM candidates
 GROUP BY candidate_id
 HAVING COUNT(distinct skill) > 2
