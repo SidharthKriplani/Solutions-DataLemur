@@ -1,4 +1,4 @@
-WITH s1 AS
+WITH s1 AS 
 (
 SELECT EXTRACTYEAR FROM transaction_date) AS transaction_year, product_id, spend
 FROM user_transactions
