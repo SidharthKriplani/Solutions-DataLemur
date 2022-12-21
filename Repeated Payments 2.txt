@@ -1,4 +1,4 @@
-WITH c1 AS 
+WITH c1 AS  
 (
 SELECT *, 
 EXTRACT(hour FROM LAG(transaction_timestamp) OVER(PARTITION BY credit_card_id ORDER BY transaction_timestamp DESC) - transaction_timestamp) AS hours,
