@@ -18,4 +18,4 @@ SELECT ROUND(100.0*
 
 FROM c1
 WHERE product_1 = 'iPhone' 
-  AND product_2 = 'AirPods'
+  AND product_2 = 'AirPods' 
