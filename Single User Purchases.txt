@@ -1,4 +1,4 @@
-WITH s1 AS
+WITH s1 AS 
 (
 SELECT s.user_id AS user_id, up.product_id product_id, EXTRACT(DAY FROM (purchase_date - signup_date)) AS day_diff
 FROM signups s
