@@ -11,3 +11,4 @@ SELECT merchant_id, SUM(apple_transaction_amount)
 FROM c1
 GROUP BY merchant_id 
 ORDER BY SUM(apple_transaction_amount) DESC
+ 
