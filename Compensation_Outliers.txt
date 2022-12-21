@@ -18,3 +18,4 @@ SELECT *
 FROM c2 
 WHERE status IS NOT NULL
 ORDER BY employee_id
+ 
