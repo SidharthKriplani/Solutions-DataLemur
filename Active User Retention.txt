@@ -20,3 +20,4 @@ WHERE
 user_id IN (SELECT user_id FROM june_ids) 
 AND 
 user_id IN (SELECT user_id FROM july_ids)
+ 
