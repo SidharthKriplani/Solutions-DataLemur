@@ -1,4 +1,4 @@
-WITH c1
+WITH c1 
 AS (
 SELECT user_id, friend_id
 FROM friendship
