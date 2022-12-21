@@ -1,4 +1,4 @@
-WITH one_domain AS
+WITH one_domain AS 
 (
 SELECT distinct employee_id
 FROM employee_expertise 
