@@ -6,4 +6,4 @@ FROM reviews
 SELECT month, product_id, ROUND(AVG(stars), 2)
 FROM s1
 GROUP BY month, product_id
-ORDER BY month, product_id
+ORDER BY month, product_id 
