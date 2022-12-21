@@ -1,5 +1,5 @@
 WITH c1 AS
-(
+( 
 SELECT *, 
 COUNT(category) OVER(ORDER BY product_id) AS rankk
 FROM products
