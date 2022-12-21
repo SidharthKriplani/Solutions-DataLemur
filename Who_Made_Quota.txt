@@ -1,4 +1,4 @@
-WITH c1 AS
+WITH c1 AS 
 (
 SELECT deals.employee_id AS employee_id, deals.deal_size AS deal_size, sq.quota AS quota
 FROM deals
