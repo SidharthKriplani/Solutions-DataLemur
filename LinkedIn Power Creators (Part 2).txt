@@ -1,5 +1,5 @@
 WITH temp_table AS
-
+ 
 (
 SELECT 
 pp.profile_id AS profile_id, 
