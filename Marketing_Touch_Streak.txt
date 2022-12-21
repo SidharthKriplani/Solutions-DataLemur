@@ -28,7 +28,7 @@ HAVING SUM(week_diff) >=2
 )
 
 SELECT DISTINCT email
-FROM full_data
+FROM full_data 
 WHERE contact IN 
 (SELECT contact FROM contacts_satisfying_condition1)
 AND event = 'trial_request'
