@@ -1,4 +1,4 @@
-WITH temp_table AS
+WITH temp_table AS 
 (
 SELECT
 product_id, 
