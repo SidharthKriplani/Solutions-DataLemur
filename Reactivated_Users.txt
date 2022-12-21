@@ -1,4 +1,4 @@
-WITH s1 AS 
+WITH s1 AS   
 (
 SELECT user_id, EXTRACT(MONTH FROM login_date) AS login_month, 
 LEAD(EXTRACT(MONTH FROM login_date), 1, 0) OVER(PARTITION BY user_id ORDER BY login_date DESC) AS last_login_month
