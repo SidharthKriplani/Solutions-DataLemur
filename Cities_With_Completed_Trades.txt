@@ -5,4 +5,4 @@ on t.user_id = u.user_id
 where status = 'Completed'
 group by city
 order by cnt desc
-limit 3
+limit 3 
