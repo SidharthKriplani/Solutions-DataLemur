@@ -1,5 +1,5 @@
 WITH temp_table AS
-(
+( 
 SELECT category, product, SUM(spend) AS spends
 FROM product_spend
 WHERE EXTRACT(YEAR FROM transaction_date) = '2022'
