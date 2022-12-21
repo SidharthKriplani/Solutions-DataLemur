@@ -1,4 +1,4 @@
-WITH all_data AS
+WITH all_data AS 
 (
 SELECT 
 a.activity_id AS activity_id, 
