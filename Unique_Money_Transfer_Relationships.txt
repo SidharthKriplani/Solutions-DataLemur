@@ -1,4 +1,4 @@
-WITH c1 as 
+WITH c1 AS
 (
 SELECT
   payer_id, recipient_id
@@ -9,5 +9,5 @@ SELECT
 FROM payments
 )
 
-select count(*)/2
-from c1
+SELECT COUNT(*)/2
+FROM c1
