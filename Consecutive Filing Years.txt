@@ -1,5 +1,5 @@
 WITH c1 AS
-(
+( 
 SELECT user_id, EXTRACT(YEAR FROM filing_date) AS year, SPLIT_PART(product, ' ', 1) AS product
 FROM filed_taxes
 ), 
