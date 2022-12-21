@@ -1,4 +1,4 @@
-with c1 AS
+WITH c1 AS 
 (
 SELECT 
 tit.transaction_id as transaction_id, 
@@ -9,11 +9,11 @@ tip. model_name,
 tip.payout_amount
 
 FROM trade_in_transactions tit
-join trade_in_payouts tip
-on tit.model_id = tip.model_id
+JOIN trade_in_payouts tip
+ON tit.model_id = tip.model_id
 )
 
-select store_id, sum(payout_amount) 
-from c1
-group by store_id
-order by sum(payout_amount) desc
+SELECT store_id, SUM(payout_amount) 
+FROM c1
+GROUP BY store_id
+ORDER BY SUM(payout_amount) DESC
