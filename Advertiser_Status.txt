@@ -26,3 +26,4 @@ ELSE 'NEW'
 END AS new_status
 FROM c2
 ORDER BY user_id
+ 
