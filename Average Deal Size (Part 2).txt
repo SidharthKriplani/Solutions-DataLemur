@@ -8,7 +8,7 @@ cu.name AS name,
 cu.employee_count AS employee_count
 
 FROM contracts co
-
+ 
 JOIN customers cu 
 ON co.customer_id = cu.customer_id
 ), 
