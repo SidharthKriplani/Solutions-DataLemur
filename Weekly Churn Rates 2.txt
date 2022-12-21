@@ -1,0 +1,18 @@
+WITH c1 AS
+(
+SELECT 
+EXTRACT(WEEK FROM signup_date)-21 AS signup_week, 
+EXTRACT(DAY FROM last_login - signup_date) AS signup_login_day_diff
+
+FROM users
+WHERE EXTRACT(MONTH FROM signup_date) = 6
+)
+
+SELECT 
+signup_week, 
+ROUND(100.0*
+SUM(CASE WHEN signup_login_day_diff < 28 THEN 1 ELSE 0 END)/ COUNT(*), 2) AS churn_rate
+
+FROM c1
+GROUP BY signup_week
+ORDER BY signup_week
