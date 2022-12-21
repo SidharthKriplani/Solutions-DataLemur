@@ -23,7 +23,7 @@ WHEN status = 'CHURN' AND paid > 0 THEN 'RESURRECT'
 WHEN status = 'CHURN' AND paid = 0 THEN 'CHURN'
 WHEN status = 'RESURRECT' AND paid > 0 THEN 'EXISTING'  
 WHEN status = 'RESURRECT' AND paid = 0 THEN 'CHURN' END 
-AS status
+AS status 
 
 FROM c1
 ORDER BY user_id
