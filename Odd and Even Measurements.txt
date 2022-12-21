@@ -1,4 +1,4 @@
-WITH s1 AS
+WITH s1 AS 
 (
 SELECT *, DENSE_RANK() OVER(PARTITION BY DATE(measurement_time) ORDER BY measurement_time) AS rankk
 FROM measurements
