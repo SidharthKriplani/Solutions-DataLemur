@@ -1,6 +1,6 @@
 WITH c1 AS
 (
-SELECT
+SELECT 
 o.order_id, o.customer_id, o.trip_id, o.status, o.order_timestamp, 
 t.dasher_id, t.actual_delivery_timestamp, 
 c.signup_timestamp
