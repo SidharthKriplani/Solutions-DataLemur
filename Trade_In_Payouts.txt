@@ -10,7 +10,7 @@ tip.payout_amount
 
 FROM trade_in_transactions tit
 JOIN trade_in_payouts tip
-ON tit.model_id = tip.model_id
+ON tit.model_id = tip.model_id 
 )
 
 SELECT store_id, SUM(payout_amount) 
