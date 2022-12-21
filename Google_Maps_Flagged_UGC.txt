@@ -1,6 +1,6 @@
 WITH c1 AS
 (
-SELECT
+SELECT 
 pi.place_id AS place_id, 
 pi.place_name AS place_name, 
 pi.place_category AS place_category, 
