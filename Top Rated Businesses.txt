@@ -1,4 +1,4 @@
-SELECT 
+SELECT  
 SUM(CASE WEHEN review_stars > 3 THEN 1 ELSE 0 END) AS "business_num", 
 ROUND(100*SUM(CASE WHEN review_stars > 3 THEN 1 ELSE 0 END)/COUNT(*), 2) AS "top_business_pct"
 FROM reviews;
