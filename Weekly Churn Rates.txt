@@ -1,4 +1,4 @@
-WITH c1 as 
+WITH c1 AS
 (
 SELECT 
 EXTRACT(WEEK FROM signup_date) + 1 - (SELECT 
