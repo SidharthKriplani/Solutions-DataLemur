@@ -24,7 +24,7 @@ CROSS JOIN pizza_toppings pt3
 WHERE 
 pt3.topping_name > cross_joined.topping1 AND 
 pt3.topping_name > cross_joined.topping2
-)
+) 
 
 
 SELECT *
