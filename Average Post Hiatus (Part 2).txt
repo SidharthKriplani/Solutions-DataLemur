@@ -13,4 +13,4 @@ WHERE EXTRACT(YEAR FROM post_date) = 2021
 SELECT user_id, ROUND(CAST(SUM(day_diff)/(COUNT(user_id)-1) AS DECIMAL), 2)
 FROM c1
 GROUP BY user_id
-HAVING COUNT(user_id) > 1
+HAVING COUNT(user_id) > 1 
