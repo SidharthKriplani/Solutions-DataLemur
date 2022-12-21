@@ -1,4 +1,4 @@
-WITH temp_table AS
+WITH temp_table AS  
 (
 SELECT user_id, tweet_date, DENSE_RANK() OVER(PARTITION BY user_id ORDER BY tweet_date) AS rankk
 FROM tweets
