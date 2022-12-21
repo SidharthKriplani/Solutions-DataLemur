@@ -1,6 +1,6 @@
 WITH c1 AS 
 (
-SELECT *
+SELECT * 
 FROM products p
 JOIN product_sales ps ON p.product_id = ps.product_id
 ), 
