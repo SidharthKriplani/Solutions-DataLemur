@@ -1,4 +1,4 @@
-SELECT distinct
-(select count(*) from filed_taxes where split_part(product, ' ', 1) = 'TurboTax'), 
-(select count(*) from filed_taxes where split_part(product, ' ', 1) = 'QuickBooks')
+SELECT DISTINCT
+(SELECT COUNT(*) FROM filed_taxes WHERE SPLIT_PART(product, ' ', 1) = 'TurboTax'), 
+(SELECT COUNT(*) FROM filed_taxes WHERE SPLIT_PART(product, ' ', 1) = 'QuickBooks')
 FROM filed_taxes
