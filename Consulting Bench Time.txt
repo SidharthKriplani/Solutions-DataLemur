@@ -1,6 +1,6 @@
 SELECT employee_id, 365 - SUM((end_date - '01/01/2021') - (start_date - '01/01/2021')+1)
 FROM staffing s
 JOIN consulting_engagements ce
-ON s.job_id = ce.job_id
+ON s.job_id = ce.job_id 
 WHERE is_consultant = 'true'
 GROUP BY employee_id
