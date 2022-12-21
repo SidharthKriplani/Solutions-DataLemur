@@ -1,5 +1,5 @@
 WITH summary AS
-(
+( 
 SELECT item_type, COUNT(item_type) AS item_quant, SUM(square_footage) AS unit_square_feet
 FROM inventory
 GROUP BY item_type
