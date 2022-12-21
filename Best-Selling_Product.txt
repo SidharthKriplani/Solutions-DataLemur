@@ -13,3 +13,4 @@ FROM c1
 
 SELECT *
 FROM c2 
+ 
