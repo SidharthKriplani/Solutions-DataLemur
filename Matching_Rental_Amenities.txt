@@ -7,7 +7,7 @@ FROM rental_amenities
 c2 AS
 (
 SELECT all_amenities, COUNT(*) AS cnt
-FROM c1
+FROM c1 
 GROUP BY all_amenities
 )
 
