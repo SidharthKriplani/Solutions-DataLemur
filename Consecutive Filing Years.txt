@@ -15,3 +15,4 @@ FROM c2
 WHERE product = 'TurboTax'
 GROUP BY user_id
 HAVING SUM(year-last_year) >=3
+ 
