@@ -1,0 +1,29 @@
+WITH c1 AS 
+(
+SELECT aui.user_id, a.status, COALESCE(dp.paid, 0.00) AS paid
+FROM (
+SELECT user_id
+FROM advertiser
+UNION
+SELECT user_id
+FROM daily_pay
+) AS aui
+LEFT JOIN advertiser a ON aui.user_id = a.user_id
+LEFT JOIN daily_pay dp ON aui.user_id = dp.user_id
+)
+
+SELECT user_id,
+CASE 
+WHEN status IS NULL AND paid > 0 THEN 'NEW'
+WHEN status = 'NEW' AND paid > 0 THEN 'EXISTING' 
+WHEN status = 'NEW' AND paid = 0 THEN 'CHURN'
+WHEN status = 'EXISTING' AND paid > 0 THEN 'EXISTING' 
+WHEN status = 'EXISTING' AND paid = 0 THEN 'CHURN'
+WHEN status = 'CHURN' AND paid > 0 THEN 'RESURRECT' 
+WHEN status = 'CHURN' AND paid = 0 THEN 'CHURN'
+WHEN status = 'RESURRECT' AND paid > 0 THEN 'EXISTING'  
+WHEN status = 'RESURRECT' AND paid = 0 THEN 'CHURN' END 
+AS status
+
+FROM c1
+ORDER BY user_id
