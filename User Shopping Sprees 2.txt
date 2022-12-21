@@ -1,0 +1,15 @@
+WITH c1 AS 
+(
+SELECT 
+user_id,
+EXTRACT(DAY FROM transaction_date - transaction_date) + 1 AS first_purchase_day_lag, 
+EXTRACT(DAY FROM transaction_date - LAG(transaction_date, 1, transaction_date) OVER(PARTITION BY user_id ORDER BY transaction_date ASC)) + 1 AS second_purchase_day_lag,
+EXTRACT(DAY FROM transaction_date - LAG(transaction_date, 2, transaction_date) OVER(PARTITION BY user_id ORDER BY transaction_date ASC)) + 1 AS third_purchase_day_lag
+
+FROM transactions 
+)
+
+SELECT DISTINCT user_id 
+FROM c1
+WHERE first_purchase_day_lag + second_purchase_day_lag + third_purchase_day_lag = 6
+ORDER BY user_id
