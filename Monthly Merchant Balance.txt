@@ -1,5 +1,5 @@
 WITH s1 AS
-(
+( 
 SELECT *, 
 CASE WHEN type = 'deposit' THEN amount ELSE -amount END AS net, 
 EXTRACT(MONTH FROM transaction_date) AS "month"
