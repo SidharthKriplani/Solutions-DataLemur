@@ -1,4 +1,4 @@
-WITH c1 AS 
+WITH c1 AS  
 (
 SELECT 
 e.email_id AS email_id, 
