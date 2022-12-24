@@ -20,4 +20,4 @@ ORDER BY policy_holder_id
 
 SELECT COUNT(DISTINCT policy_holder_id) AS member_count
 FROM c2
-WHERE day_diff < 7 AND hour_diff < 24 AND minute_diff <61
+WHERE day_diff < 7 AND hour_diff < 24 AND minute_diff <61 
