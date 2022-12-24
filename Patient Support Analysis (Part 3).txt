@@ -1,0 +1,23 @@
+WITH c1 AS 
+(
+SELECT policy_holder_id, call_received, 
+DENSE_RANK() OVER(PARTITION BY policy_holder_id ORDER BY call_received DESC) AS rankk
+FROM callers 
+), 
+
+c2 AS
+(
+SELECT c1.policy_holder_id, EXTRACT(DAY FROM c2.call_received - c1.call_received) AS day_diff, 
+EXTRACT(HOUR FROM c2.call_received - c1.call_received) AS hour_diff, 
+EXTRACT(MINUTE FROM c2.call_received - c1.call_received) AS minute_diff
+
+FROM c1
+INNER JOIN c1 c2
+ON c1.policy_holder_id = c2.policy_holder_id
+WHERE c1.call_received < c2.call_received AND c1.rankk = c2.rankk+1
+ORDER BY policy_holder_id
+)
+
+SELECT COUNT(DISTINCT policy_holder_id) AS member_count
+FROM c2
+WHERE day_diff < 7 AND hour_diff < 24 AND minute_diff <61
