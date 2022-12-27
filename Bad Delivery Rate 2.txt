@@ -25,4 +25,4 @@ WHERE status = 'completed incorrectly'
 OR status = 'never received' 
 OR EXTRACT(MINUTE FROM actual_delivery_timestamp - order_timestamp) > 30
 OR status = 'completed_incorrectly' AND EXTRACT(MINUTE FROM actual_delivery_timestamp - order_timestamp) > 30
-O status = 'never_received' AND EXTRACT(MINUTE FROM actual_delivery_timestamp - order_timestamp) > 30
+ON status = 'never_received' AND EXTRACT(MINUTE FROM actual_delivery_timestamp - order_timestamp) > 30
