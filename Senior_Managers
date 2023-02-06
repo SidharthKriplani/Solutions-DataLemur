@@ -1,0 +1,21 @@
+WITH c1 AS
+(
+SELECT DISTINCT manager_name, COUNT(manager_name) AS reporting_count
+FROM employees
+WHERE emp_id IN (SELECT DISTINCT manager_id FROM employees) AND manager_name IS NOT null
+GROUP BY manager_name
+)
+
+SELECT manager_name, COUNT(manager_name) AS direct_reportees
+FROM employees
+WHERE manager_name IN (SELECT manager_name FROM c1)
+AND emp_id IN (SELECT DISTINCT manager_id FROM employees)
+AND manager_id IN (SELECT DISTINCT emp_id FROM employees)
+GROUP BY manager_name
+ORDER BY COUNT(manager_name) DESC
+
+
+--the logic:
+CTE gives me names of all people who are Senior Managers, including those to whom Senior Managers report
+Jason, Brandon, Tom, Rick
+Notice the data: Jason and Brandon don't have their manager_id in the emp_id. So they are co founders. Leaving Rick and Tom as the only Senior Managers
