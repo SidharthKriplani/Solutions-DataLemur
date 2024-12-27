@@ -19,11 +19,10 @@ AND EXTRACT(YEAR FROM signup_timestamp) = 2022
 AND EXTRACT(DAY FROM order_timestamp - signup_timestamp) < 15
 )
 
-SELECT ROUND(100.0*COUNT()/(SELECT COUNT() FROM c2), 2)
+SELECT ROUND(100.0*COUNT(*)/(SELECT COUNT(*) FROM c2), 2)
 FROM c2
 WHERE status = 'completed incorrectly'
 OR status = 'never received' 
 OR EXTRACT(MINUTE FROM actual_delivery_timestamp - order_timestamp) > 30
 OR status = 'completed_incorrectly' AND EXTRACT(MINUTE FROM actual_delivery_timestamp - order_timestamp) > 30
-ON status = 'never_received' AND EXTRACT(MINUTE FROM actual_delivery_timestamp - order_timestamp) > 30
- 
+OR status = 'never_received' AND EXTRACT(MINUTE FROM actual_delivery_timestamp - order_timestamp) > 30
